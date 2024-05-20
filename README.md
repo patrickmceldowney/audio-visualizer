@@ -1,18 +1,10 @@
-# create-svelte
+# Audio Visualizer
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+This is an audio visualizer app that integrates with your Spotify account.
 
-## Creating a project
+## Components and Styling
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+This app uses [TailwindCSS](https://tailwindcss.com/docs/installation) for styling along with the [Flowbite UI](https://flowbite-svelte.com/docs/pages/quickstart) component library for easy styling.
 
 ## Developing
 
