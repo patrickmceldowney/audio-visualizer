@@ -8,6 +8,7 @@
   onMount(() => {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const accessToken = getCookie('spotify_token');
+      console.log(accessToken);
 
       if (!accessToken) {
         console.error('No token found');
