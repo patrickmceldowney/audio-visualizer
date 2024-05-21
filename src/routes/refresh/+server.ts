@@ -1,12 +1,12 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from '$env/static/private';
-import { error, redirect, json, type RequestHandler } from '@sveltejs/kit';
+import { error, redirect, type RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ url, fetch, cookies }) => {
-  const code = url.searchParams.get('code');
-  console.log('code', code);
+export const POST: RequestHandler = async ({ fetch, cookies }) => {
+  const token = cookies.get('refresh_token');
+  console.log('token', token);
 
-  if (!code) {
-    error(404, 'Code not found');
+  if (!token) {
+    error(404, 'Refresh token not found');
   }
 
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -15,18 +15,14 @@ export const GET: RequestHandler = async ({ url, fetch, cookies }) => {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: new URLSearchParams({
-      grant_type: 'authorization_code',
-      code: code,
-      redirect_uri: `${url.origin}/callback`,
+      grant_type: 'refresh_token',
+      refresh_token: token,
       client_id: SPOTIFY_CLIENT_ID,
       client_secret: SPOTIFY_CLIENT_SECRET,
     }),
   });
 
   const data = await response.json();
-
-  // TODO: if the token has expired hit our /refresh route
-  console.log(response);
 
   if (response.ok) {
     cookies.set('spotify_token', data.access_token, { path: '/' });

@@ -6,6 +6,7 @@ declare global {
     // interface Locals {}
     interface PageData {
       token: string;
+      refreshToken: string;
     }
     // interface PageState {}
     // interface Platform {}
