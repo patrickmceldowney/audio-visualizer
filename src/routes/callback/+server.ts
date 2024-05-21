@@ -1,7 +1,7 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from '$env/static/private';
 import { error, redirect, json, type RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ url, fetch }) => {
+export const GET: RequestHandler = async ({ url, fetch, cookies }) => {
   const code = url.searchParams.get('code');
   console.log('code', code);
 
@@ -25,16 +25,9 @@ export const GET: RequestHandler = async ({ url, fetch }) => {
 
   const data = await response.json();
 
-  console.log('res', response.ok, data);
-
   if (response.ok) {
-    return new Response(null, {
-      status: 302,
-      headers: {
-        'Set-Cookie': `spotify_token=${data.access_token}; HttpOnly; Path=/`,
-        Location: '/',
-      },
-    });
+    cookies.set('spotify_token', data.access_token, { path: '/' });
+    redirect(302, '/');
   } else {
     console.error('Error in response', data);
     redirect(response.status, '/');

@@ -2,9 +2,9 @@
   import { GradientButton } from 'flowbite-svelte';
   import Login from '$lib/components/Login.svelte';
   import { ArrowRightOutline } from 'flowbite-svelte-icons';
-  import Visualizer from '$lib/components/Visualizer.svelte';
+  import Player from '$lib/components/Player.svelte';
 
-  let player: Spotify.Player;
+  export let data;
 
   function authenticate() {
     window.location.href = '/login';
@@ -12,7 +12,7 @@
 </script>
 
 <div class="flex flex-col gap-4 items-center justify-center py-5 h-screen">
-  {#if !player}
+  {#if !data.token}
     <Login
       title="Connect to Spotify?"
       subtitle="Click here to link your Spotify account and play music directly from this app."
@@ -27,6 +27,6 @@
       </GradientButton>
     </Login>
   {:else}
-    <Visualizer bind:player />
+    <Player />
   {/if}
 </div>
